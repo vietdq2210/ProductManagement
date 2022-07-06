@@ -1,0 +1,78 @@
+create table if not exists category
+(
+    id          bigint auto_increment
+        primary key,
+    code        varchar(255) null,
+    description varchar(255) null,
+    name        varchar(255) null,
+    status      int          null
+);
+
+create table if not exists district
+(
+    id   bigint auto_increment
+        primary key,
+    code varchar(255) null,
+    name varchar(255) null
+);
+
+create table if not exists product
+(
+    id          bigint auto_increment
+        primary key,
+    category_id bigint       null,
+    code        varchar(255) null,
+    created_at  datetime     null,
+    description varchar(255) null,
+    modified_at datetime     null,
+    name        varchar(255) null,
+    price       int          null,
+    sku         varchar(255) null,
+    status      int          null
+);
+
+create table if not exists province
+(
+    id   bigint auto_increment
+        primary key,
+    code varchar(255) null,
+    name varchar(255) null
+);
+
+create table if not exists warehouse
+(
+    id          bigint auto_increment
+        primary key,
+    address     varchar(255) null,
+    district_id bigint       null,
+    name        varchar(255) null,
+    province_id bigint       null,
+    status      int          null
+);
+
+create table if not exists warehouse_product
+(
+    id           bigint auto_increment
+        primary key,
+    expired_date datetime null,
+    inventory    int      null,
+    product_id   int      null,
+    start_date   datetime null,
+    total_export int      null,
+    total_import int      null,
+    warehouse_id int      null
+);
+
+INSERT INTO producttest1.category (id, code, description, name, status) VALUES (1, 'abc123', 'hay nha', 'latop', 1);
+
+INSERT INTO producttest1.district (id, code, name) VALUES (1, 'a', 'Nam Từ Liêm');
+INSERT INTO producttest1.district (id, code, name) VALUES (2, 'b', 'Hải Hậu');
+
+INSERT INTO producttest1.product (id, category_id, code, created_at, description, modified_at, name, price, sku, status) VALUES (1, 1, 'abc123.aaaaa.20220706', '2022-07-06 16:31:47', 'goodjob', '2022-07-06 16:32:39', 'asus', 111111, 'aaaaa', 1);
+INSERT INTO producttest1.product (id, category_id, code, created_at, description, modified_at, name, price, sku, status) VALUES (2, 1, 'abc123.aaaaa.20220706', '2022-07-06 16:32:02', 'goodjob', '2022-07-06 16:32:02', 'dell asss', 10000, 'aaaaa', 1);
+
+
+INSERT INTO producttest1.province (id, code, name) VALUES (1, 'c', 'Hà Nội');
+INSERT INTO producttest1.province (id, code, name) VALUES (2, 'd', 'Nam Định');
+
+INSERT INTO producttest1.warehouse (id, address, district_id, name, province_id, status) VALUES (1, '10/293 đường Mỹ Đình Hà Nội Nam Từ Liêm', 1, 'kho 2', 1, 1);
