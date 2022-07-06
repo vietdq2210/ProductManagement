@@ -8,6 +8,8 @@ import com.ghtk.productmanagement.service.CategoryService;
 import com.ghtk.productmanagement.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,16 +20,19 @@ import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-
     @Autowired
     private ProductRepository productRepository;
-
     @Autowired
     private ModelMapper modelMapper;
-
     @Autowired
     CategoryService categoryService;
-
+    @Override
+    public ResponseEntity<CommonResponse> getAllProduct(int page, int pageSize) {
+        Page<Product> productPage = productRepository.findByStatus(1, PageRequest.of(page, pageSize));
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new CommonResponse("OK", "Get all product successfully",
+                        productPage.stream().map(product -> modelMapper.map(product, ProductDTO.class))));
+    }
     @Override
     public ResponseEntity<CommonResponse> insertProduct(ProductDTO productDTO) {
         if(productDTO.getPrice() <= 0  || productDTO.getName() == null || productDTO.getName().length() > 100){
@@ -46,7 +51,6 @@ public class ProductServiceImpl implements ProductService {
                 new CommonResponse("OK","Insert product successfully",productRepository.save(product))
         );
     }
-
     @Override
     public ResponseEntity<CommonResponse> updateProduct(Product productEntity ,Long id) {
         Product updateProduct = productRepository.findById(id)
@@ -67,7 +71,6 @@ public class ProductServiceImpl implements ProductService {
                 new CommonResponse("ok","Update product success",updateProduct)
         );
     }
-
     @Override
     public ResponseEntity<CommonResponse> deleteProduct(Long id) {
         Optional<Product> productOptional = productRepository.findById(id);

@@ -13,18 +13,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class WareHouseServiceImpl implements WareHouseService {
-
     @Autowired
     private WareHouseRepository wareHouseRepository;
-
     @Autowired
     private ProvinceService provinceService;
-
     @Autowired
     private DistrictService districtService;
-
     @Autowired
     private ModelMapper modelMapper;
     @Override
@@ -40,14 +38,27 @@ public class WareHouseServiceImpl implements WareHouseService {
                 new CommonResponse("ok","Insert warehouse successfully", wareHouseRepository.save(warehouse))
         );
     }
-
     @Override
     public ResponseEntity<CommonResponse> updateWarehouse(Warehouse warehouse, Long id) {
         return null;
     }
-
     @Override
     public ResponseEntity<CommonResponse> deleteWarehouse(Long id) {
+        Optional<Warehouse> warehouseOptional = wareHouseRepository.findById(id);
+        Warehouse warehouses = wareHouseRepository.findById(id).get();
+        if(warehouseOptional.isEmpty() || warehouses.getStatus() == 0){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new CommonResponse("fail","Id not found" + " " + id,"")
+            );
+        }else if(warehouses.getStatus() == 1){
+            warehouseOptional.map(product -> {
+                product.setStatus(0);
+                return wareHouseRepository.save(product);
+            });
+            return ResponseEntity.status(HttpStatus.OK).body(
+                    new CommonResponse("ok","Delete successfully",warehouseOptional)
+            );
+        }
         return null;
     }
 }

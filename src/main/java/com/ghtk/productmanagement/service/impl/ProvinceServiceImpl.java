@@ -5,7 +5,6 @@ import com.ghtk.productmanagement.repository.ProvinceRepository;
 import com.ghtk.productmanagement.service.ProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 @Service
 public class ProvinceServiceImpl implements ProvinceService {
     @Autowired

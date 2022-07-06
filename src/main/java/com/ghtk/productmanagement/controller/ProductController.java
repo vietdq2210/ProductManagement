@@ -7,26 +7,19 @@ import com.ghtk.productmanagement.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/v1.0/product")
 public class ProductController {
-
     @Autowired
     private ProductService productService;
 
-//    @GetMapping("/get")
-//    public ResponseEntity<ProductDTO> get(
-//            @RequestParam(value = "page") int page,
-//            @RequestParam(value = "page_size") int pageSize
-//    ){
-//        Page<Product> productPage = productService.findAll(PageRequest.of(page,pageSize));
-//        ProductDTO productDTO = new ProductDTO();
-//        BeanUtils.copyProperties(productPage,productDTO);
-//        return ResponseEntity.ok(productDTO);
-//    }
+    @GetMapping("/get")
+    public ResponseEntity<CommonResponse> get(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "page_size") int pageSize
+    ){
+        return productService.getAllProduct(page, pageSize);
+    }
 
     @PostMapping("/create")
     public ResponseEntity<CommonResponse> insertProduct(@RequestBody ProductDTO productDTO){

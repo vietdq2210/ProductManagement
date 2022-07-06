@@ -10,7 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProvinceDTO {
-    private Integer id;
     private String code;
     private String name;
 

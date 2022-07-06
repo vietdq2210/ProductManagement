@@ -18,4 +18,9 @@ public class WarehouseController {
             ,@RequestParam Long provinceId ,@RequestParam Long districtId){
         return wareHouseService.insertWarehouse(warehouseDTO,provinceId,districtId);
     }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<CommonResponse> delete(@PathVariable Long id){
+        return wareHouseService.deleteWarehouse(id);
+    }
 }

@@ -12,7 +12,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class WarehouseProductDTO {
-    private Integer id;
     private Integer productId;
     private Integer warehouseId;
     private Integer inventory;
